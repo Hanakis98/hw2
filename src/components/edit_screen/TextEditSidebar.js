@@ -13,7 +13,7 @@ class TextEditSidebar extends Component {
         // VALUES HERE
         this.state = {
             textColor : "#FF0000",
-            fontSize :  24
+            fontSize :  24,
         }
     }
 
@@ -25,7 +25,8 @@ class TextEditSidebar extends Component {
         recent one, not the default state value) */
         this.setState({
             textColor: this.props.logo.textColor ||  "#FF0000",
-            fontSize: this.props.logo.fontSize || 24
+            fontSize: this.props.logo.fontSize || 24,
+            text: this.props.logo.text || "logoText"
         });
     }
 
@@ -40,6 +41,20 @@ class TextEditSidebar extends Component {
         this.props.redoCallback();
     }
 
+
+    handleTextChange = (event) => {
+        let rawInput = prompt("Enter your new logo text (it must contain at least 1 character).", this.props.logo.text || "Title");
+        let text = rawInput.trim(); 
+
+        if(text.length == 0){
+            alert("Your logo text could not be set. The minimum length is 1 character");
+            return;
+        }
+
+         this.completeUserEditing(text)
+
+    }
+
     handleTextColorChange = (event) => {
         console.log("handleTextColorChange to " + event.target.value);
         this.setState({ textColor: event.target.value }, this.completeUserEditing);
@@ -50,12 +65,9 @@ class TextEditSidebar extends Component {
         this.setState({ fontSize: event.target.value }, this.completeUserEditing);
     }
 
-    completeUserEditing = () => {
+    completeUserEditing = (text) => {
         console.log("completeUserEditing");
-        console.log("this.state.textColor: " + this.state.textColor);
-        // Original line: Error found where attempt to change logo is done with this.state attributes for color and fontSize - This results in inaccurate updates
-        //  this.props.changeLogoCallback(this.props.logo, this.props.logo.key, this.props.logo.text, this.state.textColor, this.state.fontSize);
-        this.props.changeLogoCallback(this.props.logo, this.props.logo.key, this.props.logo.text, this.state.textColor, this.state.fontSize);
+        this.props.changeLogoCallback(this.props.logo, this.props.logo.key,  text || this.props.logo.text, this.state.textColor, this.state.fontSize);
     }
 
     
@@ -79,7 +91,7 @@ class TextEditSidebar extends Component {
             <div className="card-panel col s4">
                 <div className="card blue-grey darken-1">
                     <div className="card-content white-text">
-                        <button className="waves-effect waves-light btn-small">&#9998;</button>
+                        <button className="waves-effect waves-light btn-small" onClick={this.handleTextChange}>&#9998;</button>
                         <button className={undoClass} onClick={this.handleUndo}>Undo</button>
                         <button className={redoClass} onClick={this.handleRedo}>Redo</button>
                     </div>

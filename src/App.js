@@ -5,6 +5,8 @@
  * 
  * 2. this.buildChangeLogoTransaction -> arguments in function only correspond to text, color, fontSize . If there are more attributes we wish to change, they should also go here.
  *
+ * 3. In order to properly display logo with all its attributes, make sure you've handled 
+ *  - TextEditWorkSpace  (const styles in render())
  * 
  */
 
