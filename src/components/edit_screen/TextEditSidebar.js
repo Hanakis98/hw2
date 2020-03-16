@@ -26,6 +26,7 @@ class TextEditSidebar extends Component {
         this.setState({
             textColor: this.props.logo.textColor ||  "#FF0000",
             fontSize: this.props.logo.fontSize || 24,
+            backgroundColor: this.props.logo.backgroundColor || "#EEEEDD",
             text: this.props.logo.text || "logoText"
         });
     }
@@ -60,6 +61,11 @@ class TextEditSidebar extends Component {
         this.setState({ textColor: event.target.value }, this.completeUserEditing);
     }
 
+    handleBackgroundColorChange = (event) => {
+        console.log("handleBackgroundColorChange to " + event.target.value);
+        this.setState({ backgroundColor: event.target.value }, this.completeUserEditing);
+    }
+
     handleFontSizeChange = (event) => {
         console.log("handleTextColorChangeComplete to " + event.target.value);
         this.setState({ fontSize: event.target.value }, this.completeUserEditing);
@@ -67,7 +73,15 @@ class TextEditSidebar extends Component {
 
     completeUserEditing = (text) => {
         console.log("completeUserEditing");
-        this.props.changeLogoCallback(this.props.logo, this.props.logo.key,  text || this.props.logo.text, this.state.textColor, this.state.fontSize);
+
+        let newLogoData = {
+            text: text || this.props.logo.text,
+            textColor: this.state.textColor,
+            fontSize: this.state.fontSize,
+            backgroundColor: this.state.backgroundColor
+        }
+
+        this.props.changeLogoCallback(this.props.logo, this.props.logo.key, newLogoData);
     }
 
     
@@ -103,6 +117,18 @@ class TextEditSidebar extends Component {
                 <div className="card blue-grey darken-1">
                     <div className="card-content white-text">
                         <span className="card-title">Text</span>
+                        <div className="row">
+                            <div className="col s5">Background:</div>
+                            <div className="col s7">
+                                <input type="color"
+                                        onChange={this.handleBackgroundColorChange}
+                                        value={this.props.logo.backgroundColor}
+                                />
+                            </div>
+                        </div>
+ 
+
+
                         <div className="row">
                             <div className="col s4">Color:</div>
                             <div className="col s8">
