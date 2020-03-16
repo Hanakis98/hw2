@@ -11,7 +11,17 @@ class TextEditWorkspace extends Component {
                 borderColor: this.props.logo.borderColor,
                 borderRadius: this.props.logo.borderRadius + "px",
                 borderWidth: this.props.logo.borderThickness + "px",
-                borderStyle: "solid"
+                borderStyle: "solid",
+                padding: this.props.logo.padding + "px",
+                /**
+                WITH CURRENT STRUCTURE OF UI -> ANY 
+                ADDITIONAL HORIZONTAL MARGIN VALUE ABOVE 0
+                CAUSES LOGO TO OVERFLOW AND SHIFT BELOW
+                WORKSPACE (UNINTENDED). THEREFORE I AM 
+                LIMITING ANY MARGIN SHIFTS TO VERTICAL 
+                DIMENSION ONLY
+                */
+                margin: `${this.props.logo.margin}px 0px`
             }
         }
         return (

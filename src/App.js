@@ -42,7 +42,7 @@ export const LogoDefaults = {
   BORDER_COLOR: "#000",
   BORDER_RADIUS: 1,
   BORDER_THICKNESS: 0,
-  PADDING: 5,
+  PADDING: 0,
   MARGIN: 0
 }
 
@@ -176,8 +176,9 @@ class App extends Component {
       backgroundColor: newData["backgroundColor"],
       borderColor: newData["borderColor"],
       borderRadius: newData["borderRadius"],
-      borderThickness: newData["borderThickness"]
-
+      borderThickness: newData["borderThickness"],
+      padding: newData["padding"],
+      margin: newData["margin"]
     };
 
     // NOW BUILD THE TRANSACTION OBJECT
