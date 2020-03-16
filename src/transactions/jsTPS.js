@@ -1,4 +1,12 @@
+
+
+/** 
+ *  Functions in this class are overriden -> see ChangeLogo_Transaction.js 
+ *  Don't bother making edits here, just do them there
+ * */
 export class jsTPS_Transaction {
+
+
     /**
      * This method is called by jsTPS when a transaction is executed.
      */
@@ -12,7 +20,20 @@ export class jsTPS_Transaction {
     undoTransaction() {
         console.log("undoTransaction - MISSING IMPLEMENTATION");
     }
+
+
+
+    /**
+     * This method is called by jsTPS when a transaction is redone. 
+     */
+    redoTransaction(){
+        console.log("redoTransaction - MISSING IMPLEMENTATION");
+    }
+
 }
+
+
+
 
 export class jsTPS {
     constructor() {
@@ -21,6 +42,7 @@ export class jsTPS {
         this.mostRecentTransaction = -1;
         this.performingDo = false;
         this.performingUndo = false;
+        this.performingRedo = false;
     }
 
     isPerformingDo() {
@@ -29,6 +51,10 @@ export class jsTPS {
 
     isPerformingUndo() {
         return this.performingUndo;
+    }
+
+    isPerformingRedo() {
+        return this.performingRedo;
     }
 
     hasTransactionToRedo() {
@@ -82,6 +108,28 @@ export class jsTPS {
             this.performingUndo = false;
         }
     }
+
+
+    /**
+     * This function gets the most recently executed transaction on the 
+     * TPS stack and redoes it, moving the TPS counter accordingly. 
+     * 
+     * This function is a replica of doTransaction(), but I'll keep it here in case I decide to add
+     * some extra functionality or logging specifically for moments where a "redo" scenario is all we're interested in
+     */
+    redoTransaction() {
+        if(this.hasTransactionToRedo()){
+            this.performingRedo = true;
+            let transaction = this.transactions[this.mostRecentTransaction+1];
+            transaction.doTransaction();
+            this.mostRecentTransaction++;
+            this.performingRedo = false;
+        }
+    }
+
+
+
+
 
     clearAllTransactions() {
         // REMOVE ALL THE TRANSACTIONS

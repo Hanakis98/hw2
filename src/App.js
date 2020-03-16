@@ -1,3 +1,15 @@
+/**
+ * Observations to address:
+ * 
+ * 1. this.afterLogoDeleted -> I don't see any updates to localStorage, why is that?
+ * 2. this.buildChangeLogoTransaction -> arguments in function only correspond to text, color, fontSize . If there are more attributes we wish to change, they should also go here.
+ *
+ * 
+ */
+
+
+
+
 // IMPORT ALL THE THINGS NEEDED FROM OTHER JAVASCRIPT SOURCE FILES
 import React, { Component } from 'react';
 import goLogoLoData from './data/goLogoLoData.json'
@@ -173,6 +185,16 @@ class App extends Component {
     this.tps.undoTransaction();
   }
 
+
+
+/**
+ * redo - This callback function lets the EditScreen redo 
+ * the latest undone transaction. Note that if there is no transaction to redo, it will do nothing
+ */
+redo = () => {
+  this.tps.redoTransaction();
+}
+
   /**
    * resetTransactions - This method clears all the transactions in
    * the undo/redo stack, which should be done every time the logo
@@ -189,6 +211,16 @@ class App extends Component {
    */
   canUndo = () => {
     return this.tps.hasTransactionToUndo();
+  }
+
+
+  /**
+   * canRedo -> This method lets the user interface know if there are 
+   * any redoable transactions in the transactions stack so that it 
+   * can choose to enable or disable the redo button.
+   */
+  canRedo = () => {
+    return this.tps.hasTransactionToRedo();
   }
 
   // THERE ARE SEVEN FUNCTIONS FOR UPDATING THE App state, TWO OF
@@ -248,6 +280,7 @@ class App extends Component {
     console.log("changeLogo is the callback");
 
     // UPDATE THE LIST OF LOGOS, SUBSTITUTING THE UPDATED LOGO
+    // COPIES CURRENT LOGO'S ATTRIBUTES (INCLUDING NEW ONES) TO A NEW TRANSACTION OBJECT 
     const nextLogos = this.state.logos.map((testLogo) => {
       if (testLogo.key === newLogo.key) {
         return Object.assign({}, testLogo, newLogo);
@@ -346,6 +379,8 @@ class App extends Component {
           changeLogoCallback={this.buildChangeLogoTransaction}  // TRANSACTION CALLBACK
           undoCallback={this.undo}                        // TRANSACTION CALLBACK                       
           canUndo={this.canUndo}                          // TRANSACTION CALLBACK
+          redoCallback={this.redo}
+          canRedo={this.canRedo}
 
         />;
       default:
