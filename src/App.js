@@ -2,6 +2,7 @@
  * Observations to address:
  * 
  * 1. this.afterLogoDeleted -> I don't see any updates to localStorage, why is that?
+ * 
  * 2. this.buildChangeLogoTransaction -> arguments in function only correspond to text, color, fontSize . If there are more attributes we wish to change, they should also go here.
  *
  * 

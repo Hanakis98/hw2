@@ -1,3 +1,8 @@
+/**
+ * To Do:
+ * 1. In componentDidMount, we must insert every attribute that user can customize in the setState call
+ */
+
 import React, { Component } from 'react'
 
 class TextEditSidebar extends Component {
@@ -8,9 +13,24 @@ class TextEditSidebar extends Component {
         // VALUES HERE
         this.state = {
             textColor : "#FF0000",
-            fontSize : 24
+            fontSize :  24
         }
     }
+
+
+
+    componentDidMount(){
+        /* Very necessary to stop default state values from taking over appearance of logo, 
+        (ie: if we alter textColor and fontSize is to be displayed, we want it to be the logo's most 
+        recent one, not the default state value) */
+        this.setState({
+            textColor: this.props.logo.textColor ||  "#FF0000",
+            fontSize: this.props.logo.fontSize || 24
+        });
+    }
+
+
+    
 
     handleUndo = () => {
         this.props.undoCallback();
@@ -33,6 +53,8 @@ class TextEditSidebar extends Component {
     completeUserEditing = () => {
         console.log("completeUserEditing");
         console.log("this.state.textColor: " + this.state.textColor);
+        // Original line: Error found where attempt to change logo is done with this.state attributes for color and fontSize - This results in inaccurate updates
+        //  this.props.changeLogoCallback(this.props.logo, this.props.logo.key, this.props.logo.text, this.state.textColor, this.state.fontSize);
         this.props.changeLogoCallback(this.props.logo, this.props.logo.key, this.props.logo.text, this.state.textColor, this.state.fontSize);
     }
 
