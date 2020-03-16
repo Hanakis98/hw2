@@ -41,7 +41,7 @@ export const LogoDefaults = {
   FONT_SIZE : 24,
   BORDER_COLOR: "#000",
   BORDER_RADIUS: 1,
-  BORDER_THICKNESS: 0,
+  BORDER_THICKNESS: 1,
   PADDING: 0,
   MARGIN: 0
 }
@@ -336,16 +336,24 @@ redo = () => {
     //console.log("App updated lists: " + this.listsToString(this.state.todoLists));
     console.log("App updated currentLogo: " + this.logoToString(this.state.currentLogo));
 
-    // WILL THIS WORK? @todo
+   //SAVE STATE OF RECENT_WORK NOW THAT LOGO WAS CHANGED
     let logosString = JSON.stringify(this.state.logos);
     localStorage.setItem("recent_work", logosString);
 
     this.goToEditScreen(this.state.currentLogo);
   }
 
+
+
+
   afterLogoDeleted = () => {
     console.log("App afterLogoDeleted logos: " + this.logosToString(this.state.logos));
-    // FIRST GO HOME
+
+//SAVE STATE OF RECENT_WORK NOW THAT LOGO WAS DELETED
+    let logosString = JSON.stringify(this.state.logos);
+    localStorage.setItem("recent_work", logosString);
+
+
     this.goToHomeScreen();
   }
 
@@ -397,6 +405,7 @@ redo = () => {
           logo={this.state.currentLogo}                         // DATA NEEDED BY THIS COMPONENT AND ITS DESCENDANTS
           goToHomeCallback={this.goToHomeScreen}                    // NAVIGATION CALLBACK
           changeLogoCallback={this.buildChangeLogoTransaction}  // TRANSACTION CALLBACK
+          deleteLogoCallback={this.deleteLogo}              //DELETION CALLBACK
           undoCallback={this.undo}                        // TRANSACTION CALLBACK                       
           canUndo={this.canUndo}                          // TRANSACTION CALLBACK
           redoCallback={this.redo}
